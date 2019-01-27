@@ -13,19 +13,20 @@ socket.on('newEmail', function(email) {
 });
 
 socket.on('newMessage', function(message) {
-    console.log('newMessage', message);
-
+    var formatedTime = moment(message.createdAt).format('hh:mm a');
     var li = $('<li></li>');
-    li.text(`${message.from}: ${message.text}`);
+    li.text(`${message.from} ${formatedTime}: ${message.text}`);
 
     $('#messages').append(li);
 });
 
 socket.on('newLocationMessage', function(message){
+    var formatedTime = moment(message.createdAt).format('hh:mm a');
+
     var li = $('<li></li>');
     var a = $('<a target="_blank">My Current Location</a>')
     
-    li.text(`${message.from}: `);
+    li.text(`${message.from} ${formatedTime}: `);
     a.attr('href', message.url);
     li.append(a);
     $('#messages').append(li);  
@@ -40,7 +41,7 @@ $('#message-form').on('submit', function(e) {
         from: 'User',
         text: messageTextbox.val()
     }, function() {
-        //messageTextbox.val('');
+        messageTextbox.val('');
     });
 });
 
